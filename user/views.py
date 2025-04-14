@@ -70,7 +70,7 @@ class Profile(APIView):
 class ProfileUpdate(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
-    # parser_classes = [MultiPartParser, FormParser]
+   
     def get(self, request):
         profile = User.objects.get(id=request.user.id) 
         profile_data = UserSerializar(profile, context = {"request":request}, many=False).data
@@ -78,13 +78,12 @@ class ProfileUpdate(APIView):
     def put(self, request):
         profile = request.data
         image_data = profile['base64']
-        # format, imgstr = image_data.split(';base64,')
+       
         imgdata = base64.b64decode(image_data)
             
-            # تحويل البيانات إلى محتوى ملف يمكن حفظه
+          
         image_file = ContentFile(imgdata, name=f'{request.user.id}.png')
-        # print(image_file)
-        # # profile_image = request.files
+      
         profile_user = User.objects.get(id=request.user)
         serializer = UserSerializar(profile_user, data={"email":profile['email'], "first_name":profile['first_name'], "last_name":profile['last_name']}, partial=True)
         pro_user = ProfileModel.objects.get(user=request.user)

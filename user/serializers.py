@@ -38,7 +38,7 @@ class UserSerializar(serializers.ModelSerializer):
 
 class ProfileSerializar(serializers.ModelSerializer):
     user = UserSerializar(many=False)
-    #  user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True)
+   
     
     class Meta:
         model = Profile
@@ -46,7 +46,7 @@ class ProfileSerializar(serializers.ModelSerializer):
 
 
     def update(self, instance, validated_data):
-        # تحديث بيانات `User` من داخل `ProfileSerializer`
+      
         user_data = validated_data.pop('user', None)
         if user_data:
             instance.user.first_name = validated_data.get('first_name', instance.user.first_name)
@@ -54,21 +54,7 @@ class ProfileSerializar(serializers.ModelSerializer):
             instance.user.email = validated_data.get('email', instance.user.email)
             instance.user.save()
 
-        # تحديث الحقول الأخرى في `Profile`
         return super().update(instance, validated_data)    
 
-    # def update(self, instance, validated_data):
-    #     user_data = validated_data.pop('user', {})
-    #     user = instance.user
-
-    #     for attr, value in user_data.items():
-    #         setattr(user, attr, value)
-    #     user.save()
-
-    #     for attr, value in validated_data.items():
-    #         setattr(user, attr, value)
-    #     instance.save()
-
-    #     return instance            
 
            
