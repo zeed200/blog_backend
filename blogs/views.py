@@ -7,32 +7,18 @@ from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
 
-# def latest_post(request):
-#     posts = Post.objects.all()
-#     data = {'Results':list(posts.values("pk","title"))}
-#     return JsonResponse(data)
 
 class PostList(APIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated]
+ 
     def get(self, request):
         posts = Post.objects.all()
-        data = PostSerializar(posts, context = {"request":request}, many=True).data
-        # print(authentication_classes)
+        data = PostSerializar(posts, context = {"request":request}, many=True).data  
         return Response(data)
 
 
 
-# def post_detail(request, post_id):
-#     post = get_object_or_404(Post, pk=post_id)
-#     data = {'Results':{
-#         "title":post.title,
-#         "content":post.content,
-       
-#     }}
-#     return JsonResponse(data)
+
 
 class PostDetail(APIView):
     def get(self, request, post_id):
